@@ -1,11 +1,11 @@
 node {
     stage('Build') {
         echo 'Building....'
-    }
-    stage('Test') {
-        echo 'Testing....'
-    }
-    stage('Deploy') {
-        echo 'Deploying....'
+        docker.image('composer').inside {
+            stage('Test') {
+                sh 'composer install && composer dumpautoload'
+                sh 'vendor/bin/phpunit tests'
+            }
+        }
     }
 }
