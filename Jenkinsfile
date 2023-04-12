@@ -1,10 +1,17 @@
 node {
     stage('Build') {
-        echo 'Building....'
-        checkout scm
-        def testImage = docker.build("test-image")
-        testImage.inside(
-           sh '''php vendor/bin/phpunit tests'''
-        )
+        steps {
+            echo 'Checkout'
+            checkout scm
+        }
+        steps {
+            echo 'Building Image'
+            docker.build("test-image").inside(
+                steps {
+                    echo 'Running Tests'
+                    sh 'php vendor/bin/phpunit tests'
+                }
+            )
+        }
     }
 }
