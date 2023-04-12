@@ -4,7 +4,7 @@ node {
         checkout scm
         def testImage = docker.build("test-image")
         testImage.inside(
-           sh "/vendor/bin/phpunit tests"
+           sh '''php vendor/bin/phpunit tests'''
         )
     }
 }
